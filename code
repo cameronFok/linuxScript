@@ -1,0 +1,21 @@
+import os
+from os import system
+
+system(“sudo ufw enable”)
+
+system(“sudo chmod 640 /etc/shadow”)
+system(“ls -la /etc”)
+
+path = “etc/login.defs”
+
+with open(path, “r”) as f:
+	lines=f.readlines()
+
+with open(path, “w”) as f:
+	for line in lines:
+		line = line.replace(“PASS_MAX_DAYS	99999”,“PASS_MAX_DAYS	15”)
+		line = line.replace(“PASS_MIN_DAYS	0”,“PASS_MAX_DAYS	7”)
+		line = line.replace(“PASS_WARN_DAYS	7”,“PASS_WARN_DAYS	7”)
+		f.write(line)
+
+system(“sudo nano /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf”)
